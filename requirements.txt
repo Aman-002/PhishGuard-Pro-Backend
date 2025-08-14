@@ -4,3 +4,4 @@ httpx
 python-whois
 beautifulsoup4
 pydantic
+scikit-learn
