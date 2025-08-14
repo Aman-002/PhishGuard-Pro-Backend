@@ -203,7 +203,7 @@ class PhishingDetector:
         return is_threat, risk_score, threats, analysis_details
 
 
-detector: PhishingDetector()  # global type hint
+detector = PhishingDetector() 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -235,10 +235,6 @@ async def root():
 
 @app.post("/api/scan", response_model=URLScanResponse)
 async def scan_url(request: URLScanRequest):
-    global detector
-    if "detector" not in globals() or detector is None:
-        logger.warning("Detector was missing — reinitializing...")
-        detector = PhishingDetector()
     start_time = datetime.now()
     url_str = str(request.url)
     try:
