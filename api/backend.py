@@ -203,12 +203,10 @@ class PhishingDetector:
         return is_threat, risk_score, threats, analysis_details
 
 
-detector: PhishingDetector  # global type hint
+detector: PhishingDetector()  # global type hint
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global detector
-    detector = PhishingDetector()
     logger.info("PhishGuard Pro backend starting up...")
     yield
     await detector.close()
