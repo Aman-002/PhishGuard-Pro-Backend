@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import asyncio
 import re
 from datetime import datetime
@@ -16,6 +17,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 from contextlib import asynccontextmanager
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "phishing.pkl")
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -49,7 +54,7 @@ class PhishingDetector:
     def __init__(self):
         self.http_client = httpx.AsyncClient(timeout=10.0)
         
-        with open("phishing.pkl", "rb") as f:
+        with open(MODEL_PATH, "rb") as f:
             self.model = pickle.load(f)
 
     def normalize_url(self,url: str) -> str:
